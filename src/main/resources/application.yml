@@ -1,0 +1,14 @@
+micronaut:
+  application:
+      name: upload-api
+  server:
+    max-request-size: 2GB
+    multipart:
+      enabled: true
+      disk: false
+      max-file-size: 25GB
+      read-idle-timeout: 5m
+      write-idle-timeout: 5m
+      idle-timeout: 5m
+    netty:
+      max-chunk-size: 1MB
