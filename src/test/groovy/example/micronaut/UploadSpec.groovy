@@ -44,7 +44,7 @@ class UploadSpec extends Specification {
         ))
     }
 
-    def "test parrallel receiving flowables"() {
+    def "test parallel receiving flowables"() {
         given:
         Integer count = 0
         def val = ('abcdefghij' * TEN_MB).bytes
