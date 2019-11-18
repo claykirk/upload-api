@@ -2,7 +2,7 @@ micronaut:
   application:
       name: upload-api
   server:
-    max-request-size: 2GB
+    max-request-size: 5GB
     multipart:
       enabled: true
       disk: false
