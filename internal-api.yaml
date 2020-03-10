@@ -1,0 +1,108 @@
+---
+openapi: 3.0.0
+info:
+  title: Internal Data API V3
+  version: 1.0.0
+  description: An elevated access API for Intelligence Cloud applications.
+paths:
+  /data-api/api/v3/data/sets/latest:
+    summary: Fetches the latest dataset for a given data type and tenant
+    get:
+      parameters:
+      - name: dataType
+        description: A dataset is uploaded using a data type. You can fetch the latest
+          dataset for any valid data type.
+        schema:
+          type: string
+        in: query
+        required: true
+      - name: Tenant-Id
+        description: The tenant for which the dataset belongs
+        schema:
+          type: string
+        in: header
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    status: success
+                    data:
+                    - subtype: example-subtype
+                      timestamp: 2020-03-10T11:29:14.554+0000
+                      data: https://s3.amazonaws.com/di-data-lake-dev-da6fdeda-9bd0-4f89-9dde-8485ef4b4d1d/data-source-transaction-5e39b1a1bf1c990a64620573/data-set-5e677a053ca8e715cc586ef6/raw/transactions.avro
+                      dataSetId: 5e677a053ca8e715cc586ef6
+          description: Success
+      summary: Fetches latest dataset
+    parameters:
+    - examples:
+        data-type:
+          value: transaction
+      name: dataType
+      description: The data type for which to fetch the latest dataset. The value
+        can be a simple data type (e.g. transaction) or a compound type of data type
+        and subtype (e.g. transaction:options_and_labels).
+      schema:
+        type: string
+      in: query
+      required: true
+  /data-api/api/v3/data/types:
+    summary: Fetches the configured data types
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                result:
+                  value:
+                    status: success
+                    data:
+                    - listprice
+                    - deal
+                    - productcost
+                    - transaction
+                    - random
+                    - causalitydata-csv
+                    - transaction-csv
+                    - listprice-csv
+                    - productcost-csv
+                    - label-csv
+          description: The list of configured data types
+      summary: Fetches configured data types
+  /data-api/api/v3/data/types/$dataType/subtypes:
+    summary: Fetches the tracked subtypes for the given data type and tenant
+    get:
+      parameters:
+      - name: Tenant-Id
+        description: The id of the tenant associated with the subtypes
+        schema:
+          type: string
+        in: header
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                subtypes-response:
+                  value:
+                    status: success
+                    data:
+                    - options_and_labels
+                    - example-subtype
+          description: Success
+      summary: Fetch all subtypes for a data type
+    parameters:
+    - examples:
+        dataType:
+          value: transaction:options_and_labels
+      name: dataType
+      description: The data type for which to fetch subtypes
+      schema:
+        type: string
+      in: query
+      required: true
